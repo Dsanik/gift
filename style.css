@@ -1,0 +1,434 @@
+:root {
+  --bg-top: #fdf1e7;
+  --bg-bottom: #f6d9c4;
+  --box: #e08a9e;
+  --box-dark: #c96f84;
+  --ribbon: #fbeee0;
+  --bunny: #fdd4e9;
+  --bunny-shade: #f0d9c4;
+  --bunny-inner-ear: #f3a6b1;
+  --text: #6b4a3a;
+  --accent: #e08a9e;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
+}
+
+.scene {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===== Sound toggle ===== */
+.sound-toggle {
+  position: absolute;
+  top: 20px; right: 20px;
+  z-index: 5;
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.6);
+  font-size: 18px;
+  cursor: pointer;
+  transition: background .25s ease, transform .15s ease;
+}
+.sound-toggle:hover  { background: rgba(255, 255, 255, 0.85); }
+.sound-toggle:active { transform: scale(0.94); }
+
+/* ===== Hint ===== */
+.hint {
+  position: absolute;
+  top: 14%; left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  color: var(--text);
+  font-size: 18px;
+  opacity: .85;
+  transition: opacity .6s ease;
+  z-index: 4;
+}
+.hint.hidden { opacity: 0; }
+
+/* ===== Gift box ===== */
+.gift {
+  position: relative;
+  width: 180px; height: 150px;
+  cursor: pointer;
+  z-index: 3;
+  transition: transform .3s ease;
+}
+.gift:hover .lid { transform: translateY(-4px) rotate(-1deg); }
+.gift.opened { pointer-events: none; }
+
+.box-base {
+  position: absolute;
+  bottom: 0;
+  width: 100%; height: 65%;
+  background: var(--box);
+  border-radius: 8px;
+  box-shadow: inset -8px -8px 0 var(--box-dark);
+}
+
+.lid {
+  position: absolute;
+  top: 22%; left: -6%;
+  width: 112%; height: 26%;
+  background: var(--box);
+  border-radius: 8px;
+  box-shadow: inset -8px -6px 0 var(--box-dark);
+  transform-origin: center;
+  transition: transform .5s cubic-bezier(.6,-0.28,.74,.05),
+              opacity .4s ease;
+}
+
+.ribbon-v {
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 16%; height: 100%;
+  background: var(--ribbon);
+}
+
+.ribbon-h {
+  position: absolute;
+  top: 22%; left: -6%;
+  width: 112%; height: 26%;
+  background: var(--ribbon);
+  z-index: 1;
+}
+
+.bow {
+  position: absolute;
+  top: 8%; left: 50%;
+  transform: translateX(-50%);
+  width: 46px; height: 26px;
+  z-index: 2;
+}
+.bow::before, .bow::after {
+  content: "";
+  position: absolute; top: 0;
+  width: 22px; height: 22px;
+  background: var(--ribbon);
+  border-radius: 50% 50% 50% 0;
+}
+.bow::before { left: 0;  transform: rotate(-20deg); }
+.bow::after  { right: 0; transform: rotate(20deg) scaleX(-1); }
+
+.gift.opened .lid {
+  transform: translateY(-90px) rotate(-35deg);
+  opacity: 0;
+}
+
+/* Плавное исчезновение коробки */
+.gift.opened .box-base,
+.gift.opened .lid,
+.gift.opened .ribbon-v,
+.gift.opened .ribbon-h,
+.gift.opened .bow {
+  animation: gift-fade-out .6s ease 1.2s forwards;
+}
+@keyframes gift-fade-out {
+  to { opacity: 0; visibility: hidden; }
+}
+
+/* ===== Sparkles (ИСПРАВЛЕНО) ===== */
+.sparkle {
+  position: absolute;
+  left: 50%;
+  bottom: 55%;
+  width: 12px; height: 12px;
+  background: radial-gradient(circle,
+              #fffbe6 0%,
+              #ffe08a 35%,
+              rgba(255, 224, 138, 0) 70%);
+  border-radius: 50%;
+  opacity: 0;
+  z-index: 10;                /* ← ключевое: поверх ленты и банта */
+  pointer-events: none;
+  filter: drop-shadow(0 0 8px #ffe9a8)
+          drop-shadow(0 0 18px #ffd36b);
+}
+.gift.opened .sparkle {
+  animation: sparkle-burst 1.4s ease-out forwards;
+}
+@keyframes sparkle-burst {
+  0%   { opacity: 0; transform: translate(-50%, 0)   scale(0.2); }
+  15%  { opacity: 1; transform: translate(-50%, 0)   scale(1.3); }
+  60%  { opacity: 1; transform: translate(var(--sx), var(--sy)) scale(1); }
+  100% { opacity: 0; transform: translate(var(--sx), var(--sy)) scale(0.5); }
+}
+
+.s1 { --sx: -120px; --sy: -130px; }
+.s2 { --sx: -45px;  --sy: -175px; }
+.s3 { --sx:  30px;  --sy: -180px; }
+.s4 { --sx: 110px;  --sy: -120px; }
+.s5 { --sx: -150px; --sy: -50px;  }
+.s6 { --sx: 150px;  --sy: -40px;  }
+.s7 { --sx: -85px;  --sy: -75px;  }
+.s8 { --sx:  85px;  --sy: -70px;  }
+
+.gift.opened .s1 { animation-delay: 0s; }
+.gift.opened .s2 { animation-delay: .08s; }
+.gift.opened .s3 { animation-delay: .15s; }
+.gift.opened .s4 { animation-delay: .22s; }
+.gift.opened .s5 { animation-delay: .30s; }
+.gift.opened .s6 { animation-delay: .38s; }
+.gift.opened .s7 { animation-delay: .45s; }
+.gift.opened .s8 { animation-delay: .52s; }
+
+/* ===== Bunnies container ===== */
+.bunnies {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.pop-bunny {
+  position: absolute;
+  bottom: 40%;
+  left: 50%;
+  width: 70px; height: 84px;
+  opacity: 0;
+}
+
+.bunnies.opened .pop-bunny {
+  animation: pop-out .9s cubic-bezier(.34,1.56,.64,1) forwards;
+}
+.bunnies.opened .pop-bunny.p1 { animation-delay: .15s; }
+.bunnies.opened .pop-bunny.p2 { animation-delay: .30s; }
+.bunnies.opened .pop-bunny.p3 { animation-delay: .45s; }
+
+@keyframes pop-out {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 0) scale(0.3) rotate(0deg);
+  }
+  60% { opacity: 1; }
+  100% {
+    opacity: 1;
+    transform: translate(var(--dx), var(--dy)) scale(1) rotate(var(--dr));
+  }
+}
+
+.p1 { --dx: -140px; --dy: -170px; --dr: -12deg; }
+.p2 { --dx: -50%;   --dy: -220px; --dr:  4deg; }
+.p3 { --dx:  90px;  --dy: -170px; --dr: 14deg; }
+
+/* Обёртка для idle-покачивания */
+.bunny-idle {
+  position: absolute;
+  inset: 0;
+  transform-origin: center bottom;
+}
+
+.bunnies.opened .p1 .bunny-idle {
+  animation: idle-bounce 2.6s ease-in-out 1.05s infinite;
+}
+.bunnies.opened .p2 .bunny-idle {
+  animation: idle-bounce 2.6s ease-in-out 1.20s infinite;
+}
+.bunnies.opened .p3 .bunny-idle {
+  animation: idle-bounce 2.6s ease-in-out 1.35s infinite;
+}
+
+@keyframes idle-bounce {
+  0%, 100% { transform: translateY(0)    rotate(-1.5deg); }
+  50%      { transform: translateY(-7px) rotate( 1.5deg); }
+}
+
+/* ===== Bunny anatomy ===== */
+.bunny-body {
+  position: absolute;
+  bottom: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 70%; height: 55%;
+  background: var(--bunny);
+  border-radius: 50% 50% 45% 45%;
+  box-shadow: inset -5px -5px 0 var(--bunny-shade);
+}
+
+.bunny-head {
+  position: absolute;
+  bottom: 42%; left: 50%;
+  transform: translateX(-50%);
+  width: 62%; height: 46%;
+  background: var(--bunny);
+  border-radius: 50%;
+  box-shadow: inset -4px -4px 0 var(--bunny-shade);
+}
+
+.ear {
+  position: absolute;
+  bottom: 78%;
+  width: 13px; height: 34px;
+  background: var(--bunny);
+  border-radius: 50% 50% 20% 20%;
+  transform-origin: bottom center;
+  animation: wiggle 2.2s ease-in-out infinite;
+}
+.ear::after {
+  content: "";
+  position: absolute;
+  top: 18%; left: 50%;
+  transform: translateX(-50%);
+  width: 6px; height: 60%;
+  background: var(--bunny-inner-ear);
+  border-radius: 50%;
+}
+.ear.left  { left: 28%; }
+.ear.right { left: 54%; animation-delay: .25s; }
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-4deg); }
+  50%      { transform: rotate( 6deg); }
+}
+
+.face {
+  position: absolute;
+  bottom: 46%; left: 50%;
+  transform: translateX(-50%);
+  width: 60%; height: 20%;
+}
+.eye {
+  position: absolute; top: 0;
+  width: 5px; height: 7px;
+  background: #4a342a;
+  border-radius: 50%;
+  animation: blink 4.5s ease-in-out infinite;
+}
+.eye.left  { left: 22%; }
+.eye.right { right: 22%; animation-delay: .1s; }
+
+@keyframes blink {
+  0%, 92%, 100% { transform: scaleY(1); }
+  95%           { transform: scaleY(0.1); }
+}
+
+.nose {
+  position: absolute;
+  top: 40%; left: 50%;
+  transform: translateX(-50%);
+  width: 5px; height: 4px;
+  background: var(--bunny-inner-ear);
+  border-radius: 50%;
+}
+.cheek {
+  position: absolute; top: 55%;
+  width: 9px; height: 6px;
+  background: rgba(224, 138, 158, .35);
+  border-radius: 50%;
+}
+.cheek.left  { left: 8%; }
+.cheek.right { right: 8%; }
+
+/* ===== Compliment card ===== */
+.compliment {
+  position: absolute;
+  top: 55%; left: 50%;
+  transform: translate(-50%, 20px);
+  width: min(340px, 80vw);
+  text-align: center;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 16px;
+  padding: 18px 22px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .6s ease, transform .6s ease;
+  z-index: 6;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+.compliment.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+  pointer-events: auto;
+}
+.compliment p {
+  margin: 0;
+  color: var(--text);
+  font-size: 19px;
+  font-style: italic;
+  line-height: 1.4;
+}
+
+.next-btn {
+  margin-top: 12px;
+  border: none;
+  background: var(--accent);
+  color: #fff8f2;
+  font-family: inherit;
+  font-size: 14px;
+  padding: 7px 18px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background .25s ease, transform .15s ease;
+}
+.next-btn:hover  { background: var(--box-dark); }
+.next-btn:active { transform: scale(0.96); }
+
+/* ===== Reduced motion ===== */
+@media (prefers-reduced-motion: reduce) {
+  .lid, .pop-bunny, .bunny-idle, .ear, .eye, .sparkle, .compliment {
+    animation: none !important;
+    transition: none !important;
+  }
+  .gift.opened .lid { opacity: 0; transform: translateY(-90px); }
+  .bunnies.opened .pop-bunny {
+    opacity: 1;
+    transform: translate(var(--dx), var(--dy)) !important;
+  }
+}
+
+
+/* ===== Mode toggle (Античность / Весело) ===== */
+.mode-toggle {
+  display: inline-flex;
+  gap: 4px;
+  background: rgba(224, 138, 158, 0.14);
+  padding: 4px;
+  border-radius: 999px;
+  margin-bottom: 14px;
+}
+.mode-btn {
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 13px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  color: var(--text);
+  opacity: 0.75;
+  transition: background .2s ease, color .2s ease, opacity .2s ease;
+}
+.mode-btn:hover:not(.active) {
+  background: rgba(224, 138, 158, 0.18);
+  opacity: 1;
+}
+.mode-btn.active {
+  background: var(--accent);
+  color: #fff8f2;
+  opacity: 1;
+  box-shadow: 0 2px 8px rgba(224, 138, 158, 0.4);
+}
+.mode-btn:active { transform: scale(0.96); }
+
+/* Плавная смена текста комплимента */
+.compliment p {
+  transition: opacity .25s ease;
+}
+.compliment p.swapping {
+  opacity: 0;
+}

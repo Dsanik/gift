@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#fdf1e7" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+
+  <title>Открой подарок 🎁</title>
+  <meta name="description" content="Тебя ждёт маленький сюрприз с тёплыми словами…" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Открой подарок 🎁" />
+  <meta property="og:description" content="Тебя ждёт маленький сюрприз с тёплыми словами…" />
+  <meta property="og:image" content="https://ТВОЙ_НИК.github.io/ИМЯ_РЕПО/preview.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:url" content="https://ТВОЙ_НИК.github.io/ИМЯ_РЕПО/" />
+  <meta property="og:site_name" content="Подарок" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Открой подарок 🎁" />
+  <meta name="twitter:description" content="Тебя ждёт маленький сюрприз с тёплыми словами…" />
+  <meta name="twitter:image" content="https://ТВОЙ_НИК.github.io/ИМЯ_РЕПО/preview.png" />
+
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+
+  <div class="scene">
+
+    <button class="sound-toggle" id="soundToggle" aria-label="Включить музыку">🔇</button>
+
+    <div class="hint" id="hint">Нажми на подарок 🎁</div>
+
+    <!-- Коробка -->
+    <div class="gift" id="gift">
+      <div class="box-base"></div>
+      <div class="lid"></div>
+      <div class="ribbon-v"></div>
+      <div class="ribbon-h"></div>
+      <div class="bow"></div>
+
+      <!-- Искорки: 8 штук -->
+      <div class="sparkle s1"></div>
+      <div class="sparkle s2"></div>
+      <div class="sparkle s3"></div>
+      <div class="sparkle s4"></div>
+      <div class="sparkle s5"></div>
+      <div class="sparkle s6"></div>
+      <div class="sparkle s7"></div>
+      <div class="sparkle s8"></div>
+    </div>
+
+    <!-- Зайчики -->
+    <div class="bunnies" id="bunnies">
+
+      <div class="pop-bunny p1">
+        <div class="bunny-idle">
+          <div class="bunny-body"></div>
+          <div class="bunny-head">
+            <div class="ear left"></div>
+            <div class="ear right"></div>
+            <div class="face">
+              <div class="eye left"></div>
+              <div class="eye right"></div>
+              <div class="nose"></div>
+              <div class="cheek left"></div>
+              <div class="cheek right"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pop-bunny p2">
+        <div class="bunny-idle">
+          <div class="bunny-body"></div>
+          <div class="bunny-head">
+            <div class="ear left"></div>
+            <div class="ear right"></div>
+            <div class="face">
+              <div class="eye left"></div>
+              <div class="eye right"></div>
+              <div class="nose"></div>
+              <div class="cheek left"></div>
+              <div class="cheek right"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pop-bunny p3">
+        <div class="bunny-idle">
+          <div class="bunny-body"></div>
+          <div class="bunny-head">
+            <div class="ear left"></div>
+            <div class="ear right"></div>
+            <div class="face">
+              <div class="eye left"></div>
+              <div class="eye right"></div>
+              <div class="nose"></div>
+              <div class="cheek left"></div>
+              <div class="cheek right"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Комплимент -->
+    <div class="compliment" id="compliment">
+        <div class="mode-toggle" id="modeToggle">
+            <button class="mode-btn active" data-mode="antique">🏛 Античность</button>
+            <button class="mode-btn" data-mode="fun">😄 Весело</button>
+        </div>
+        <p id="complimentText"></p>
+        <button class="next-btn" id="nextBtn">Ещё 💌</button>
+    </div>
+  </div>
+
+  <script src="./compliments.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>
